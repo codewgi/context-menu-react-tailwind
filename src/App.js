@@ -1,43 +1,41 @@
 import logo from './logo.svg';
-import './css/style.css';
-import Card from './components/card';
+import "./css/style.css";
+import { useEffect, useRef } from 'react';
+import Card from './components/Card';
 import ContextMenu from './components/ContextMenu';
-import { useContext, useEffect, useRef, useState } from 'react';
 
 function App() {
-  // const [contextMenuPosition, setContextMenuPosition] = useState(false);
+  const card = useRef()
   const contextMenu = useRef();
-  const card = useRef();
 
   useEffect(() => {
-    const handleRightClick = (e) => {
-      e.preventDefault();
-      // setContextMenuPosition([e.pageX,e.pageY]);
+    const handleRigthClick = (e) => {
+      e.preventDefault()
       if(card.current.contains(e.target)) {
-        contextMenu.current.classList.remove("hidden")
-        contextMenu.current.style.left = `${e.clientX}px`
-        contextMenu.current.style.top = `${e.clientY}px`
+        contextMenu.current.classList.remove("hidden");
+        contextMenu.current.style.left = `${e.clientX}px`;
+        contextMenu.current.style.top = `${e.clientY}px`;
       } else {
         contextMenu.current.classList.add("hidden")
       }
     }
-    window.addEventListener("contextmenu", handleRightClick);
-    
+    window.addEventListener("contextmenu", handleRigthClick)
+
     const handleCloseContextMenu = (e) => {
       if(!contextMenu.current.contains(e.target)) {
         contextMenu.current.classList.add("hidden")
       }
     }
-    window.addEventListener("click", handleCloseContextMenu);
+    window.addEventListener("click", handleCloseContextMenu)
 
     return () => {
-      window.removeEventListener("contextmenu", handleRightClick);
-      window.removeEventListener("click", handleCloseContextMenu);
+      window.removeEventListener("contextmenu", handleRigthClick)
+      window.removeEventListener("click", handleCloseContextMenu)
     }
-  }, [])
+  })
 
   return (
-    <div className='w-full grid place-content-center min-h-screen bg-[#151515] p-72 overflow-x-hidden'> 
+    <div className="w-full grid place-content-center min-h-screen bg-[#151515] p-72 overflow-hidden">
       <div className='w-fit' ref={card}>
         <Card/>
       </div>
